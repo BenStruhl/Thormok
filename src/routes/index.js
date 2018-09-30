@@ -9,10 +9,9 @@ router.get('/', function(req, res, next) {
     // Upload a file from loca file-system to MongoDB
 router.get('/api/file/upload', (req, res) => {
 
-  var rawFileData = req.body.rawData
   var filename = req.query.filename;
   var writestream = gfs.createWriteStream({ filename: filename });
-  fs.createReadStream(rawFileData).pipe(writestream);
+  fs.createReadStream("../Fractal.png").pipe(writestream);
   writestream.on('close', (file) => {
     res.send('Stored File: ' + file.filename);
   });
