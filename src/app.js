@@ -3,26 +3,24 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-const MongoClient = require('mongodb').MongoClient,
-    Grid = MongoClient.Grid;
-const url = 'mongodb://66.175.211.166/27017/test';
+const mongoose = require('mongoose');
+const gridfs = require('gridfs-stream');
+const fs = require('fs');
+const url = 'mongodb://66.175.211.166:27017/test';
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 const app = express();
 
-MongoClient.connect(url, {useNewUrlParser: true}, function(err, db) {
-    if(err) return console.dir(err);
+mongoose.connect(url, { useNewUrlParser: true });
+mongoose.Promise = global.Promise;
+gridfs.mongo = mongoose.mongo;
 
-    var grid = new Grid(db, 'fs');
-    var buffer = new Buffer("Hello world");
-    grid.put(buffer, {metadata:{category:'text'}, content_type: 'text'}, function(err, fileInfo) {
-        if(!err) {
-            console.log("Finished writing file to Mongo");
-        }
-    });
-});
+var connection = mongoose.connection;
+connection.once('open', () => {
+    console.log("Successfully connected");
+})
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
