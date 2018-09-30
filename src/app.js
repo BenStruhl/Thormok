@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 const gridfs = require('gridfs-stream');
 const fs = require('fs');
 const url = 'mongodb://66.175.211.166:27017/test';
+const bodyParser = require('body-parser');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -31,6 +32,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(bodyParser)
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
