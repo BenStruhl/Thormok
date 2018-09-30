@@ -7,14 +7,17 @@ router.get('/', function (req, res, next) {
   res.send('respond with a resource');
 });
 
-    // Upload a file from local file-system to MongoDB
+// Upload a file from local file-system to MongoDB
 router.get('/api/file/upload', (req, res) => {
 
   var filename = req.query.filename;
-  var writestream = gfs.createWriteStream({ filename: filename });
+  var writestream = gfs.createWriteStream({filename: filename});
   fs.createReadStream("../Fractal.png").pipe(writestream);
   writestream.on('close', (file) => {
     res.send('Stored File: ' + file.filename);
+  });
+});
+
 router.get('/getFiles', function (req, res, next) {
   gridfs.files.find({filename}).toArray((err, files) => {
     if (err) res.send(err);
