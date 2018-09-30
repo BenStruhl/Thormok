@@ -1,18 +1,18 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-var MongoClient = require('mongodb').MongoClient,
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const MongoClient = require('mongodb').MongoClient,
     Grid = MongoClient.Grid;
 const url = 'mongodb://66.175.211.166/27017/test';
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
-var app = express();
+const app = express();
 
-MongoClient.connect(url, function(err, db) {
+MongoClient.connect(url, {useNewUrlParser: true}, function(err, db) {
     if(err) return console.dir(err);
 
     var grid = new Grid(db, 'fs');
