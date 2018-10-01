@@ -19,7 +19,7 @@ router.get('/api/file/upload', (req, res) => {
 });
 
 router.get('/getFiles', function (req, res, next) {
-  gridfs.files.find({filename}).toArray((err, files) => {
+  gridfs.files.find({}, {"filename": 1}).toArray((err, files) => {
     if (err) res.send(err);
     res.json(files);
   });
